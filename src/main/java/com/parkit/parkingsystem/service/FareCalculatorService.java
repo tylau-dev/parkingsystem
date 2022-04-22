@@ -1,5 +1,8 @@
 package com.parkit.parkingsystem.service;
 
+import java.time.temporal.ChronoUnit;
+import java.util.concurrent.TimeUnit;
+
 import com.parkit.parkingsystem.constants.Fare;
 import com.parkit.parkingsystem.model.Ticket;
 
@@ -10,12 +13,22 @@ public class FareCalculatorService {
             throw new IllegalArgumentException("Out time provided is incorrect:"+ticket.getOutTime().toString());
         }
 
-        int inHour = ticket.getInTime().getHours();
-        int outHour = ticket.getOutTime().getHours();
+        long timeDiffInMillies = Math.abs(ticket.getOutTime().getTime() - ticket.getInTime().getTime());        
+        double timeDiffInMinutes = TimeUnit.MINUTES.convert(timeDiffInMillies, TimeUnit.MILLISECONDS);        
+        double duration;
 
-        //TODO: Some tests are failing here. Need to check if this logic is correct
-        int duration = outHour - inHour;
-
+        // Duration equals % of an hour when the Time Difference is less than 1 hour
+        if (timeDiffInMinutes <= 60) {
+        	duration = timeDiffInMinutes/60;
+        }
+        // Duration fixed to 24 hours when the Time Difference is more than 24 hours
+        else if (timeDiffInMinutes > 1440) {
+        	duration = 24;
+        }
+        else {
+        	duration = timeDiffInMinutes/60;
+        }
+        
         switch (ticket.getParkingSpot().getParkingType()){
             case CAR: {
                 ticket.setPrice(duration * Fare.CAR_RATE_PER_HOUR);
