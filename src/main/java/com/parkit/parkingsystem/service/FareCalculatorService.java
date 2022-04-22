@@ -17,12 +17,8 @@ public class FareCalculatorService {
         double timeDiffInMinutes = TimeUnit.MINUTES.convert(timeDiffInMillies, TimeUnit.MILLISECONDS);        
         double duration;
 
-        // Duration equals % of an hour when the Time Difference is less than 1 hour
-        if (timeDiffInMinutes <= 60) {
-        	duration = timeDiffInMinutes/60;
-        }
         // Duration fixed to 24 hours when the Time Difference is more than 24 hours
-        else if (timeDiffInMinutes > 1440) {
+        if (timeDiffInMinutes > 1440) {
         	duration = 24;
         }
         else {
