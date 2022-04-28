@@ -87,4 +87,27 @@ public class TicketDAO {
 	}
 	return false;
     }
+
+    public Boolean getExistingVehicle(String vehicleRegNumber) {
+	Connection con = null;
+	try {
+	    con = dataBaseConfig.getConnection();
+	    PreparedStatement ps = con.prepareStatement(DBConstants.GET_VEHICLE_REG_NUMBER);
+	    ps.setString(1, vehicleRegNumber);
+	    ResultSet rs = ps.executeQuery();
+	    if (rs.next()) {
+		String foundValue = rs.getString("VEHICLE_REG_NUMBER");
+		if (foundValue == null) {
+		    return false;
+		} else {
+		    return true;
+		}
+	    }
+	} catch (Exception ex) {
+	    logger.error("Error getting ticket info", ex);
+	} finally {
+	    dataBaseConfig.closeConnection(con);
+	}
+	return false;
+    }
 }
