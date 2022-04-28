@@ -7,20 +7,28 @@ import com.parkit.parkingsystem.model.Ticket;
 
 public class FareCalculatorService {
 
-    public void calculateFare(Ticket ticket) {
+    public void calculateFare(Ticket ticket, Boolean existingUser) {
+
+	if (ticket.getOutTime() == null) {
+	    throw new IllegalArgumentException("Out time provided is null");
+	}
+
 	if (ticket.getOutTime().before(ticket.getInTime())) {
 	    throw new IllegalArgumentException("Out time provided is incorrect:" + ticket.getOutTime().toString());
 	}
 
-	if (ticket.getOutTime() == null) {
-	    throw new IllegalArgumentException("Out time provided is null");
+	double existingUserDiscount = 1;
+
+	if (existingUser) {
+	    existingUserDiscount = 0.95;
 	}
 
 	long timeDiffInMillies = Math.abs(ticket.getOutTime().getTime() - ticket.getInTime().getTime());
 	double timeDiffInMinutes = TimeUnit.MINUTES.convert(timeDiffInMillies, TimeUnit.MILLISECONDS);
 	double duration;
 
-	// Duration fixed to 24 hours when the Time Difference is more than 24 hours
+	// Duration fixed to 24 hours (1440 minutes) when the Time Difference is more
+	// than 24 hours
 	if (timeDiffInMinutes > 1440) {
 	    duration = 24;
 	} else {
@@ -29,11 +37,11 @@ public class FareCalculatorService {
 
 	switch (ticket.getParkingSpot().getParkingType()) {
 	case CAR: {
-	    ticket.setPrice(duration * Fare.CAR_RATE_PER_HOUR);
+	    ticket.setPrice(duration * Fare.CAR_RATE_PER_HOUR * existingUserDiscount);
 	    break;
 	}
 	case BIKE: {
-	    ticket.setPrice(duration * Fare.BIKE_RATE_PER_HOUR);
+	    ticket.setPrice(duration * Fare.BIKE_RATE_PER_HOUR * existingUserDiscount);
 	    break;
 	}
 	default:
