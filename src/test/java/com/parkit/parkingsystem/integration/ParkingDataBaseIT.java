@@ -1,5 +1,7 @@
 package com.parkit.parkingsystem.integration;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.when;
 
 import org.junit.jupiter.api.AfterAll;
@@ -14,6 +16,7 @@ import com.parkit.parkingsystem.dao.ParkingSpotDAO;
 import com.parkit.parkingsystem.dao.TicketDAO;
 import com.parkit.parkingsystem.integration.config.DataBaseTestConfig;
 import com.parkit.parkingsystem.integration.service.DataBasePrepareService;
+import com.parkit.parkingsystem.model.Ticket;
 import com.parkit.parkingsystem.service.ParkingService;
 import com.parkit.parkingsystem.util.InputReaderUtil;
 
@@ -54,17 +57,22 @@ public class ParkingDataBaseIT {
 	ParkingService parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
 	parkingService.processIncomingVehicle();
 
-	// TODO: check that a ticket is actually saved in DB and Parking table is
-	// updated with availability
-	// Faire un appel à la DB via ticketDAO avec un RegNumber "ABCDEF"
+	// Retrieve ticket data from Database and check whether the retrieved ticket has
+	// the same Vehicle Reg Number
+	Ticket checkTicket = ticketDAO.getTicket("ABCDEF");
+	assertEquals(("ABCDEF"), checkTicket.getVehicleRegNumber());
     }
 
     @Test
     public void testParkingLotExit() {
 	ParkingService parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
+	parkingService.processIncomingVehicle();
 	parkingService.processExitingVehicle();
-	// TODO: check that the fare generated and out time are populated correctly in
-	// the database
+
+	// Retrieve ticket data from Database and check whether the retrieved ticket has
+	// the same Vehicle Reg Number
+	Ticket checkTicket = ticketDAO.getTicket("ABCDEF");
+	assertNotNull(checkTicket.getOutTime());
     }
 
 }
