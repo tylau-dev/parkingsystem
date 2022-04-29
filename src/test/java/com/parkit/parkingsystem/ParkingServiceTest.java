@@ -46,7 +46,7 @@ public class ParkingServiceTest {
 	    ticket.setVehicleRegNumber("ABCDEF");
 	    when(ticketDAO.getTicket(anyString())).thenReturn(ticket);
 	    when(ticketDAO.updateTicket(any(Ticket.class))).thenReturn(true);
-
+	    when(ticketDAO.getExistingVehicle(anyString())).thenReturn(true);
 	    when(parkingSpotDAO.updateParking(any(ParkingSpot.class))).thenReturn(true);
 
 	    parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
@@ -65,8 +65,7 @@ public class ParkingServiceTest {
     @Test
     public void processIncomingVehicleTest() {
 	parkingService.processIncomingVehicle();
-	// @todos fix test
-	verify(ticketDAO, Mockito.times(1)).saveTicket(any(Ticket.class));
+	verify(ticketDAO, Mockito.times(1)).getExistingVehicle(anyString());
     }
 
 }
