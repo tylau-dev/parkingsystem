@@ -17,8 +17,9 @@ public class FareCalculatorService {
 	    throw new IllegalArgumentException("Out time provided is incorrect:" + ticket.getOutTime().toString());
 	}
 
+	// existingUserDiscount variable controlling the rate for existing user, set to
+	// 0.95 for the 5% discount if it's an existing user
 	double existingUserDiscount = 1;
-
 	if (existingUser) {
 	    existingUserDiscount = 0.95;
 	}
@@ -35,13 +36,20 @@ public class FareCalculatorService {
 	    duration = timeDiffInMinutes / 60;
 	}
 
+	// freeRate variable controls whether the user stayed for less than 30 minutes
+	double freeRate = 1;
+
+	if (timeDiffInMinutes <= 30) {
+	    freeRate = 0;
+	}
+
 	switch (ticket.getParkingSpot().getParkingType()) {
 	case CAR: {
-	    ticket.setPrice(duration * Fare.CAR_RATE_PER_HOUR * existingUserDiscount);
+	    ticket.setPrice(duration * Fare.CAR_RATE_PER_HOUR * existingUserDiscount * freeRate);
 	    break;
 	}
 	case BIKE: {
-	    ticket.setPrice(duration * Fare.BIKE_RATE_PER_HOUR * existingUserDiscount);
+	    ticket.setPrice(duration * Fare.BIKE_RATE_PER_HOUR * existingUserDiscount * freeRate);
 	    break;
 	}
 	default:

@@ -65,6 +65,7 @@ public class ParkingServiceTest {
     @Test
     public void processIncomingVehicleTest() {
 	parkingService.processIncomingVehicle();
+	// @todos fix test
 	verify(ticketDAO, Mockito.times(1)).saveTicket(any(Ticket.class));
     }
 
