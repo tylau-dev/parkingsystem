@@ -146,7 +146,7 @@ public class FareCalculatorServiceTest {
 	Date inTime = new Date();
 	inTime.setTime(System.currentTimeMillis() - (60 * 60 * 1000));
 	Date outTime = new Date();
-	ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.BUS, false);
+	ParkingSpot parkingSpot = new ParkingSpot(1, null, false);
 
 	ticket.setInTime(inTime);
 	ticket.setOutTime(outTime);
