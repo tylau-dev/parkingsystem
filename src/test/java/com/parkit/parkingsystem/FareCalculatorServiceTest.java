@@ -189,7 +189,7 @@ public class FareCalculatorServiceTest {
     @Test
     public void calculateFareFreeFirstThirtyMinutes() {
 	Date inTime = new Date();
-	inTime.setTime(System.currentTimeMillis() - (25 * 60 * 1000));// 25 minutes parking time should give 0
+	inTime.setTime(System.currentTimeMillis() - (30 * 60 * 1000));// 30 minutes parking time should give 0
 	Date outTime = new Date();
 	ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR, false);
 

@@ -72,7 +72,9 @@ public class ParkingDataBaseIT {
 	// Retrieve ticket data from Database and check whether the retrieved ticket has
 	// the same Vehicle Reg Number
 	Ticket checkTicket = ticketDAO.getTicket("ABCDEF");
+	Boolean isExistingUser = ticketDAO.getExistingVehicle("ABCDEF");
+
+	assertEquals(true, isExistingUser);
 	assertNotNull(checkTicket.getOutTime());
     }
-
 }
