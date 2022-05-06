@@ -47,11 +47,10 @@ public class ParkingService {
 		ticket.setPrice(0);
 		ticket.setInTime(inTime);
 		ticket.setOutTime(null);
-		ticket.setExistingUser(isExistingUser);
 
 		ticketDAO.saveTicket(ticket);
 
-		if (ticket.getExistingUser()) {
+		if (isExistingUser) {
 		    System.out.println(
 			    "Welcome back! As a recurring user of our parking lot, you'll benefit from a 5% discount.");
 		}
@@ -113,9 +112,10 @@ public class ParkingService {
 	    String vehicleRegNumber = getVehichleRegNumber();
 	    Ticket ticket = ticketDAO.getTicket(vehicleRegNumber);
 	    Date outTime = new Date();
-	    ticket.setExistingUser(ticketDAO.getExistingVehicle(vehicleRegNumber));
+
+	    Boolean isExistingUser = ticketDAO.getExistingVehicle(vehicleRegNumber);
 	    ticket.setOutTime(outTime);
-	    fareCalculatorService.calculateFare(ticket, ticket.getExistingUser());
+	    fareCalculatorService.calculateFare(ticket, isExistingUser);
 	    if (ticketDAO.updateTicket(ticket)) {
 		ParkingSpot parkingSpot = ticket.getParkingSpot();
 		parkingSpot.setAvailable(true);

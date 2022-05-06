@@ -9,7 +9,6 @@ public class Ticket {
     private double price;
     private Date inTime;
     private Date outTime;
-    private Boolean isExistingUser;
 
     public int getId() {
 	return id;
@@ -58,13 +57,4 @@ public class Ticket {
     public void setOutTime(Date outTime) {
 	this.outTime = outTime;
     }
-
-    public Boolean getExistingUser() {
-	return isExistingUser;
-    }
-
-    public void setExistingUser(Boolean isExistingUser) {
-	this.isExistingUser = isExistingUser;
-    }
-
 }
