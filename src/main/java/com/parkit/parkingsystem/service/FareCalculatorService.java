@@ -13,7 +13,9 @@ public class FareCalculatorService {
 	    throw new IllegalArgumentException("Out time provided is null");
 	}
 
-	if (ticket.getOutTime().before(ticket.getInTime())) {
+	// Check whether OutTime is not before InTime and that OutTime and InTime are
+	// not equal
+	if (ticket.getOutTime().before(ticket.getInTime()) && ticket.getOutTime() != ticket.getInTime()) {
 	    throw new IllegalArgumentException("Out time provided is incorrect:" + ticket.getOutTime().toString());
 	}
 
