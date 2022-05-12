@@ -112,6 +112,13 @@ public class TicketDAO {
 	return false;
     }
 
+    /*
+     * Check whether Vehicle is a returning user
+     * 
+     * @param String vehicleRegNumber
+     * 
+     * @return Boolean result
+     */
     public Boolean getExistingVehicle(String vehicleRegNumber) {
 	Connection con = null;
 	try {
