@@ -5,8 +5,16 @@ import java.util.concurrent.TimeUnit;
 import com.parkit.parkingsystem.constants.Fare;
 import com.parkit.parkingsystem.model.Ticket;
 
+/*
+ * Service handling Fate Calculation
+ */
 public class FareCalculatorService {
 
+    /*
+     * Compute Parking Fare based on Duration, Existing Users
+     * 
+     * @param Ticket, Boolean existingUser
+     */
     public void calculateFare(Ticket ticket, Boolean existingUser) {
 
 	if (ticket.getOutTime() == null) {

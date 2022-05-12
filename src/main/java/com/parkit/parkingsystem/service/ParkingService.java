@@ -12,6 +12,9 @@ import com.parkit.parkingsystem.model.ParkingSpot;
 import com.parkit.parkingsystem.model.Ticket;
 import com.parkit.parkingsystem.util.InputReaderUtil;
 
+/*
+ * Service processing Incoming and Outcoming Vehicles
+ */
 public class ParkingService {
 
     private static final Logger logger = LogManager.getLogger("ParkingService");
@@ -28,6 +31,10 @@ public class ParkingService {
 	this.ticketDAO = ticketDAO;
     }
 
+    /*
+     * Method handling incoming vehicle, updating ParkingSpot and saving the ticket
+     * in the Database
+     */
     public void processIncomingVehicle() {
 	try {
 	    ParkingSpot parkingSpot = getNextParkingNumberIfAvailable();
@@ -64,11 +71,17 @@ public class ParkingService {
 	}
     }
 
+    /*
+     * Display and send VehicleRegNumber
+     */
     private String getVehichleRegNumber() throws Exception {
 	System.out.println("Please type the vehicle registration number and press enter key");
 	return inputReaderUtil.readVehicleRegistrationNumber();
     }
 
+    /*
+     * Retrieve ParkingNumber and return whether it's available or not
+     */
     public ParkingSpot getNextParkingNumberIfAvailable() {
 	int parkingNumber = 0;
 	ParkingSpot parkingSpot = null;
@@ -88,6 +101,9 @@ public class ParkingService {
 	return parkingSpot;
     }
 
+    /*
+     * Read input from user regarding Vehicle Type
+     */
     private ParkingType getVehichleType() {
 	System.out.println("Please select vehicle type from menu");
 	System.out.println("1 CAR");
@@ -107,6 +123,10 @@ public class ParkingService {
 	}
     }
 
+    /*
+     * Handler for processing Existing Vehicle Compute Fare and Update Ticket in
+     * Database
+     */
     public void processExitingVehicle() {
 	try {
 	    String vehicleRegNumber = getVehichleRegNumber();
